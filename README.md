@@ -37,6 +37,25 @@ Telegram bot for PatchUp that walks a lead through an end-to-end 3D printing ord
    ```bash
    export TELEGRAM_BOT_TOKEN="<your_token>"
    ```
+A simple Telegram bot that greets users with a welcome message about **PatchUp**, a one-stop 3D printing service platform.
+
+## Features
+
+- `/start`: Sends a PatchUp welcome message.
+- `/help`: Shows available commands.
+
+## Setup
+
+1. Create a Telegram bot via [@BotFather](https://t.me/BotFather) and get the bot token.
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Set environment variable:
+   ```bash
+   export TELEGRAM_BOT_TOKEN="<your_token>"
+   ```
+   Or copy `.env.example` and load it in your environment.
 
 ## Run
 
@@ -45,3 +64,4 @@ python bot.py
 ```
 
 In Telegram, send `/start` to begin.
+Once running, open your bot in Telegram and send `/start`.

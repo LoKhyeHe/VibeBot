@@ -1,4 +1,5 @@
 """Telegram bot for PatchUp lead-to-order workflow."""
+"""Telegram bot for PatchUp welcome messaging."""
 
 from __future__ import annotations
 
@@ -15,6 +16,10 @@ from telegram.ext import (
     MessageHandler,
     filters,
 )
+
+from telegram import Update
+from telegram.ext import Application, CommandHandler, ContextTypes
+
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -256,6 +261,31 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 
 def main() -> None:
+WELCOME_MESSAGE = (
+    "👋 Welcome to PatchUp!\n\n"
+    "PatchUp is your one-stop 3D printing service platform — from idea to finished print.\n"
+    "Need prototypes, custom parts, or creative models? We make 3D printing simple, fast, and reliable."
+)
+
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Send PatchUp welcome message when the /start command is issued."""
+    if update.message is None:
+        return
+
+    await update.message.reply_text(WELCOME_MESSAGE)
+
+
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Display available commands."""
+    if update.message is None:
+        return
+
+    await update.message.reply_text("Use /start to get the PatchUp welcome message.")
+
+
+def main() -> None:
+    """Run the bot."""
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     if not token:
         raise RuntimeError(
@@ -288,6 +318,7 @@ def main() -> None:
     )
 
     application.add_handler(conv_handler)
+    application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
 
     logger.info("PatchUp Telegram bot is starting...")
